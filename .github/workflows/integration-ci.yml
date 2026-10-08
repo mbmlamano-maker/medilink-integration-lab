@@ -1,0 +1,41 @@
+name: MediLink Integration CI
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/**"
+      - "fix/**"
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Validate Python syntax
+        run: |
+          python -m py_compile medilink_contract.py
+          python -m py_compile config.py
+          python -m py_compile demo_summary.py
+          python -m py_compile tests/test_contracts.py
+          python -m py_compile tests/test_config.py
+
+      - name: Run automated contract and configuration tests
+        env:
+          MEDILINK_API_KEY: ${{ secrets.MEDILINK_API_KEY }}
+          REQUEST_TIMEOUT: "5"
+        run: python -m unittest discover -s tests -v
