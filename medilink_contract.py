@@ -11,5 +11,5 @@ def build_summary(patient: dict, appointments: list[dict], clinic_status: str = 
     return {
         "patient": dict(patient),
         "appointments": list(appointments),
-        "status": clinic_status.strip().upper(),
+        "clinic_status": clinic_status.strip().upper(),
     }
