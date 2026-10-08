@@ -8,5 +8,5 @@ appointments = [
     {"appointment_id": "A-2", "date": "2026-10-19", "department": "Laboratory"},
 ]
 
-summary = build_summary(patient, appointments)
+summary = build_summary(patient, appointments, "maintenance")
 print(json.dumps(summary, indent=2))
